@@ -18,34 +18,13 @@ export default class App extends Component {
     loading: false,
   };
 
-  componentDidMount() {
-    this.fetchImages();
+  componentDidUpdate(_, prevState) {
+    const { page, query } = this.state;
+    if (page !== prevState.page || prevState.query !== query) {
+      this.fetchImages();
+    }
   }
-
-  // fetchImages = async () => {
-  //   try {
-  //     if (!this.state.query.trim()) {
-  //       return;
-  //     }
-
-  //     this.setState({ loading: true });
-  //     const response = await requestImages();
-  //     const hits = response.hits;
-
-  //     this.setState({
-  //       images: hits,
-  //       status: 'success',
-  //       loading: false,
-  //     });
-  //   } catch (error) {
-  //     console.error('Error fetching images:', error);
-  //     this.setState({
-  //       status: 'error',
-  //       error: error.message,
-  //       loading: false,
-  //     });
-  //   }
-  // };
+  
   fetchImages = async () => {
     try {
       if (!this.state.query.trim()) {
@@ -74,6 +53,7 @@ export default class App extends Component {
     }
   };
   
+
 
   handleSubmit = query => {
     if (this.state.query === query) {
