@@ -35,6 +35,7 @@ export default class App extends Component {
       this.setState({ loading: true });
       const response = await requestImages();
       const hits = response.hits;
+      
   
       // Фільтруємо тільки елементи з імеджами
       const imagesWithUrls = hits.filter(item => item.type === 'photo' && item.previewURL);
@@ -91,7 +92,8 @@ export default class App extends Component {
       <div>
         <Searchbar onSubmit={this.handleSubmit} />
         {loading && <Loader />} {}
-        <ImageGallery images={images} />
+        <ImageGallery images={images} 
+        onClickModal={this.handleOpenModal}/>
         {!loading && (
           
           images.length > 0 && page < totalPages && <Button handleLoadMore={this.handleLoadMore} />
