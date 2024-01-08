@@ -22,18 +22,45 @@ export default class App extends Component {
     this.fetchImages();
   }
 
+  // fetchImages = async () => {
+  //   try {
+  //     if (!this.state.query.trim()) {
+  //       return;
+  //     }
+
+  //     this.setState({ loading: true });
+  //     const response = await requestImages();
+  //     const hits = response.hits;
+
+  //     this.setState({
+  //       images: hits,
+  //       status: 'success',
+  //       loading: false,
+  //     });
+  //   } catch (error) {
+  //     console.error('Error fetching images:', error);
+  //     this.setState({
+  //       status: 'error',
+  //       error: error.message,
+  //       loading: false,
+  //     });
+  //   }
+  // };
   fetchImages = async () => {
     try {
       if (!this.state.query.trim()) {
         return;
       }
-      
+  
       this.setState({ loading: true });
       const response = await requestImages();
       const hits = response.hits;
-
+  
+      // Фільтруємо тільки елементи з імеджами
+      const imagesWithUrls = hits.filter(item => item.type === 'photo' && item.previewURL);
+  
       this.setState({
-        images: hits,
+        images: imagesWithUrls,
         status: 'success',
         loading: false,
       });
@@ -46,6 +73,7 @@ export default class App extends Component {
       });
     }
   };
+  
 
   handleSubmit = query => {
     if (this.state.query === query) {
