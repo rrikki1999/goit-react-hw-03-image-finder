@@ -22,13 +22,28 @@ export default class App extends Component{
 
   fetchImages = async () => {
     try {
-      const images = await requestImages();
-      console.log("images:", images); 
-      this.setState({images});
+      const response = await requestImages();
+      const hits = response.hits;
+  
+      this.setState({
+        images: hits, 
+        status: 'success',
+      });
     } catch (error) {
       console.error('Error fetching images:', error);
+      this.setState({
+        status: 'error',
+        error: error.message,
+      });
     }
   }
+  
+  handleSubmit = query => {
+    if (this.state.query === query) {
+      return;
+    }
+    this.setState({ query: query, images: [], page: 1 });
+  };
 
   
   render() {

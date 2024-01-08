@@ -3,7 +3,7 @@ import ImageGalleryItem from './ImageGalleryItem';
 
 const ImageGallery = ({ images, onClickModal }) => {
     return (
-      <ul className="gallery">
+      <ul className="ImageGallery">
         {Array.isArray(images) && images.map(image => {
           return (
             <ImageGalleryItem

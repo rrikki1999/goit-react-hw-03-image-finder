@@ -4,9 +4,9 @@ const ImageGalleryItem = ({ image, onClickModal }) => {
     const { id, tags, webformatURL, largeImageURL } = image;
   
     return (
-      <li key={id} className="galleryItem">
+      <li key={id} className="ImageGalleryItem">
         <img
-          className="galleryItemImage"
+          className="ImageGalleryItem-image"
           src={webformatURL}
           alt={tags}
           onClick={() => {
