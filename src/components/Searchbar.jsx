@@ -1,18 +1,18 @@
 import React from 'react';
-import { useState } from 'react';
+// import { useState } from 'react';
 
 export const Searchbar = ({ onSubmit }) => {
 
-  const [query, setQuery] = useState('');
+  // const [query, setQuery] = useState('');
 
-  const handleSubmit = event => {
-    event.preventDefault();
-    onSubmit(query);
-  };
+  // const handleSubmit = event => {
+  //   event.preventDefault();
+  //   onSubmit(query);
+  // };
 
-  const handleChange = event => {
-    setQuery(event.target.value);
-  };
+  // const handleChange = event => {
+  //   setQuery(event.target.value);
+  // };
 
 
   return (
