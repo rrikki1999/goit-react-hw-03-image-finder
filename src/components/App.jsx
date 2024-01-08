@@ -4,6 +4,7 @@ import { Searchbar } from './Searchbar';
 import ImageGallery from './ImageGallery'
 import { Button } from './Button.jsx';
 import { Loader } from './Loader.jsx';
+import { Modal } from './Modal.jsx';
 
 export default class App extends Component {
   state = {
@@ -12,7 +13,7 @@ export default class App extends Component {
     page: 1,
     images: [],
     totalPages: null,
-    showModal: false,
+    isOpenModal: false,
     largeImageURL: '',
     error: null,
     loading: false,
@@ -70,8 +71,21 @@ export default class App extends Component {
     this.fetchImages(); 
   };
 
+  handleOpenModal = (largeImageURl, tags) => {
+    this.setState({
+      modalData: { largeImageURl, tags },
+      isOpenModal: true,
+    });
+  };
+
+  handleCloseModal = () => {
+    this.setState({
+      isOpenModal: false,
+    });
+  };
+
   render() {
-    const { images, totalPages, page, loading } = this.state;
+    const { images, totalPages, page, loading,isOpenModal } = this.state;
 
     return (
       <div>
@@ -81,6 +95,13 @@ export default class App extends Component {
         {!loading && (
           
           images.length > 0 && page < totalPages && <Button handleLoadMore={this.handleLoadMore} />
+        )}
+         {isOpenModal && (
+          <Modal
+            isOpenModal={isOpenModal}
+            onCloseModal={this.handleCloseModal}
+            modalData={this.state.modalData}
+          />
         )}
       </div>
     );
