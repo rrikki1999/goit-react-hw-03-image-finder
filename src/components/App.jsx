@@ -43,14 +43,14 @@ export default class App extends Component {
         images: [...prevState.images, ...hits],
         totalPages: page < Math.ceil(totalHits / 12),
         status: 'success',
-        isLoadMore: false,
+        
       }));
     } catch (error) {
       console.error('Error fetching images:', error);
       this.setState({
         status: 'error',
         error: error.message,
-        isLoadMore: false,
+        
       });
     } finally {
       this.setState({ isLoadMore: false });
@@ -100,7 +100,7 @@ export default class App extends Component {
           />
         )}
         {/* {isLoadMore && <Button handleLoadMore={this.handleLoadMore} />} */}
-        { totalPages && !isLoadMore  && images.length > 0 (
+        { totalPages && !isLoadMore  && images.length > 0  && (
           <Button handleLoadMore={this.handleLoadMore} />
         )}
 
