@@ -15,7 +15,6 @@ export default class App extends Component {
     totalPages: null,    
     isOpenModal: false,
     modalData: [],
-    // largeImageURL: '',
     error: null,
     isLoadMore: false,
   };
@@ -67,7 +66,6 @@ export default class App extends Component {
   handleLoadMore = () => {
     this.setState(prevState => ({
       page: prevState.page + 1,
-      // isLoadMore: false,
     }));
   };
 
@@ -90,7 +88,7 @@ export default class App extends Component {
     return (
       <div>
         <Searchbar onSubmit={this.handleSubmit} />
-        {isLoadMore && <Loader />} {}
+        {isLoadMore && <Loader />} 
         <ImageGallery images={images} onClickModal={this.handleOpenModal} />
         {isOpenModal && (
           <Modal
@@ -99,7 +97,6 @@ export default class App extends Component {
             modalData={this.state.modalData}
           />
         )}
-        {/* {isLoadMore && <Button handleLoadMore={this.handleLoadMore} />} */}
         { totalPages && !isLoadMore  && images.length > 0  && (
           <Button handleLoadMore={this.handleLoadMore} />
         )}
