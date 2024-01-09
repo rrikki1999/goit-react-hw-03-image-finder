@@ -12,7 +12,7 @@ export default class App extends Component {
     status: 'idle',
     page: 1,
     images: [],   
-    totalPages: null,
+    totalPages: null,    
     isOpenModal: false,
     modalData: [],
     // largeImageURL: '',
