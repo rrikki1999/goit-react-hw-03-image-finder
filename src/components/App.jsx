@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import {requestImages} from '../api.js';
+import { requestImages } from '../api.js';
 import { Searchbar } from './Searchbar';
-import ImageGallery from './ImageGallery'
+import ImageGallery from './ImageGallery';
 import { Button } from './Button.jsx';
 import { Loader } from './Loader.jsx';
 import { Modal } from './Modal.jsx';
@@ -14,67 +14,65 @@ export default class App extends Component {
     images: [],
     totalPages: null,
     isOpenModal: false,
-    largeImageURL: '',
+    modalData: [],
+    // largeImageURL: '',
     error: null,
-    loading: false,
+    isLoadMore: false,
   };
 
   componentDidUpdate(_, prevState) {
     const { page, query } = this.state;
     if (page !== prevState.page || prevState.query !== query) {
-      this.fetchImages();
+      this.fetchImages(query, page);
     }
   }
-  
-  fetchImages = async () => {
+
+  fetchImages = async (query, page) => {
     try {
       if (!this.state.query.trim()) {
         return;
       }
-  
-      this.setState({ loading: true });
-      const response = await requestImages();
-      const hits = response.hits;
-      
-  
-      // Фільтруємо тільки елементи з імеджами
-      const imagesWithUrls = hits.filter(item => item.type === 'photo' && item.previewURL);
-  
-      this.setState({
-        images: imagesWithUrls,
+
+      this.setState({ isLoadMore: true });
+      const { hits, totalHits } = await requestImages(query, page);
+
+      if (hits.length === 0) {
+        return alert('We did not find');
+      }
+      this.setState(prevState => ({
+        images: [...prevState.images, ...hits],
+        totalPages: page < Math.ceil(totalHits / 12),
         status: 'success',
-        loading: false,
-      });
+        isLoadMore: false,
+      }));
     } catch (error) {
       console.error('Error fetching images:', error);
       this.setState({
         status: 'error',
         error: error.message,
-        loading: false,
+        isLoadMore: false,
       });
+    } finally {
+      this.setState({ isLoadMore: false });
     }
   };
-  
-
 
   handleSubmit = query => {
     if (this.state.query === query) {
       return;
     }
     this.setState({ query: query, images: [], page: 1 });
-    this.fetchImages(); 
   };
 
   handleLoadMore = () => {
     this.setState(prevState => ({
       page: prevState.page + 1,
     }));
-    this.fetchImages(); 
   };
 
-  handleOpenModal = (largeImageURl, tags) => {
+  handleOpenModal = (largeImageURL, tags) => {
     this.setState({
-      modalData: { largeImageURl, tags },
+      modalData: { largeImageURL, tags },
       isOpenModal: true,
     });
   };
@@ -86,25 +84,23 @@ export default class App extends Component {
   };
 
   render() {
-    const { images, totalPages, page, loading,isOpenModal } = this.state;
+    const { images, isOpenModal, isLoadMore } = this.state;
 
     return (
       <div>
         <Searchbar onSubmit={this.handleSubmit} />
-        {loading && <Loader />} {}
-        <ImageGallery images={images} 
-        onClickModal={this.handleOpenModal}/>
-        {!loading && (
-          
-          images.length > 0 && page < totalPages && <Button handleLoadMore={this.handleLoadMore} />
-        )}
-         {isOpenModal && (
+        {isLoadMore && <Loader />} {}
+        <ImageGallery images={images} onClickModal={this.handleOpenModal} />
+        {isOpenModal && (
           <Modal
             isOpenModal={isOpenModal}
             onCloseModal={this.handleCloseModal}
             modalData={this.state.modalData}
           />
         )}
+        {isLoadMore && <Button handleLoadMore={this.handleLoadMore} />}
+        
+
       </div>
     );
   }

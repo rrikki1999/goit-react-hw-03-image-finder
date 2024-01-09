@@ -189,6 +189,7 @@ img {
   display: inline-block;
   color: #fff;
   border: 0;
+  margin: auto;
   text-decoration: none;
   cursor: pointer;
   font-family: inherit;
