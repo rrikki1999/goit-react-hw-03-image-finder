@@ -67,6 +67,7 @@ export default class App extends Component {
   handleLoadMore = () => {
     this.setState(prevState => ({
       page: prevState.page + 1,
+      // isLoadMore: false,
     }));
   };
 
@@ -84,7 +85,7 @@ export default class App extends Component {
   };
 
   render() {
-    const { images, isOpenModal, isLoadMore } = this.state;
+    const { images, isOpenModal, isLoadMore, totalPages } = this.state;
 
     return (
       <div>
@@ -98,8 +99,11 @@ export default class App extends Component {
             modalData={this.state.modalData}
           />
         )}
-        {isLoadMore && <Button handleLoadMore={this.handleLoadMore} />}
-        
+        {/* {isLoadMore && <Button handleLoadMore={this.handleLoadMore} />} */}
+        {totalPages !== null && totalPages && !isLoadMore && (
+  <Button handleLoadMore={this.handleLoadMore} />
+)}
+
 
       </div>
     );
