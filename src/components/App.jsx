@@ -100,10 +100,9 @@ export default class App extends Component {
           />
         )}
         {/* {isLoadMore && <Button handleLoadMore={this.handleLoadMore} />} */}
-        {totalPages !== null && totalPages && !isLoadMore && (
-  <Button handleLoadMore={this.handleLoadMore} />
-)}
-
+        { totalPages && !isLoadMore  && images.length > 0 (
+          <Button handleLoadMore={this.handleLoadMore} />
+        )}
 
       </div>
     );
