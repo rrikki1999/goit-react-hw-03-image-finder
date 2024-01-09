@@ -11,7 +11,7 @@ export default class App extends Component {
     query: '',
     status: 'idle',
     page: 1,
-    images: [],
+    images: [],   
     totalPages: null,
     isOpenModal: false,
     modalData: [],

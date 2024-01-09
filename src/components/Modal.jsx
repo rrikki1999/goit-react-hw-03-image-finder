@@ -9,7 +9,7 @@ export class Modal extends Component {
   componentWillUnmount() {
     document.body.style.overflow = 'auto';
     window.removeEventListener('keydown', this.onClickESC);
-  }
+  }     
 
   onClickESC = event => {
     if (event.code === 'Escape') {
